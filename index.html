@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="The Hex: a covered market, two event halls and a learning floor on Detroit Street, Kerrytown, Ann Arbor. Student design proposal.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 26 30%22%3E%3Cpath d=%22M13 1 25 8v14l-12 7L1 22V8z%22 fill=%22%232F3824%22/%3E%3Cpath d=%22M13 8 19 11.5v7L13 22l-6-3.5v-7z%22 fill=%22%23C9A13B%22/%3E%3C/svg%3E">
+<title>The Hex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-bleed bands (market, spaces, building, team) each with a 1180px inner column; the building band is a dark "drawing room". */
+:root{
+  --paper:#FAF7F0; --crate:#E8DDC8; --crate-d:#B9A57C; --squash:#C9A13B; --apple:#8E3B2E; --leaf:#4F5A3A; --deep:#2F3824; --ink:#2B2B26;
+  --bg:var(--paper); --fg:var(--ink); --muted:#6B6A5C; --line:#D9CDB4; --card:#F3ECDD; --accent:var(--apple); --accent-fg:#FAF7F0;
+  --band:#2F3824; --band-fg:#EFE8D8; --band-muted:#B9B79F; --band-line:#4A5638; --band-card:#39432C;
+  --f-display:"Archivo",ui-sans-serif,system-ui,sans-serif; --f-body:"Archivo",ui-sans-serif,system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --w:1180px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1C2117; --fg:#EFE8D8; --muted:#B4B19C; --line:#3A4330; --card:#252C1E; --accent:#D2735F; --accent-fg:#1C2117;
+  --band:#141811; --band-fg:#EFE8D8; --band-muted:#A9A68F; --band-line:#323A29; --band-card:#20261A; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1C2117; --fg:#EFE8D8; --muted:#B4B19C; --line:#3A4330; --card:#252C1E; --accent:#D2735F; --accent-fg:#1C2117;
+  --band:#141811; --band-fg:#EFE8D8; --band-muted:#A9A68F; --band-line:#323A29; --band-card:#20261A; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;font-variation-settings:"wdth" 100}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+a{color:inherit}
+.wrap{max-width:var(--w);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.02}
+h2{font-size:clamp(34px,5vw,60px);font-weight:800;font-variation-settings:"wdth" 72;letter-spacing:-.01em;text-transform:uppercase}
+h3{font-size:22px;font-weight:700;font-variation-settings:"wdth" 88}
+p{margin:0;max-width:65ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:2px;padding:11px 18px;font:600 14px/1 var(--f-body);letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none;background:var(--accent);color:var(--accent-fg)}
+.btn.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+.btn:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--squash);outline-offset:2px}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font:800 20px/1 var(--f-display);font-variation-settings:"wdth" 70;letter-spacing:.06em;text-decoration:none;text-transform:uppercase}
+.logo svg{width:26px;height:26px}
+.nav nav{display:flex;gap:18px;margin-left:auto;font-size:14px;font-weight:600}
+.nav nav a{text-decoration:none;opacity:.85}.nav nav a:hover{opacity:1;color:var(--accent)}
+.nav .btn{padding:9px 14px}
+@media (max-width:760px){.nav nav{display:none}.nav .btn{margin-left:auto}}
+/* hero */
+.hero{position:relative;height:clamp(440px,58vw,700px);overflow:hidden;color:#FAF7F0;background:#2a2230}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,30,.0) 30%,rgba(20,18,30,.72) 100%)}
+.hero .wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-block:40px}
+.hero h1{font-size:clamp(84px,17vw,230px);font-weight:900;font-variation-settings:"wdth" 62;letter-spacing:-.02em;line-height:.82;text-transform:uppercase}
+.hero .sub{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:flex-end;justify-content:space-between;margin-top:18px}
+.hero .sub p{font-size:clamp(17px,2vw,21px);max-width:44ch;color:#F3E9DA}
+.hero .btn{background:#FAF7F0;color:#2B2B26}.hero .btn.ghost{background:transparent;color:#FAF7F0}
+/* status strip */
+.strip{background:var(--deep);color:#EFE8D8}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;padding-block:0}
+.strip div{padding:16px 0}
+.strip b{display:block;font:700 13px/1.2 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--squash)}
+.strip span{font-size:15px}
+@media (max-width:760px){.strip .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}}
+section{padding-block:84px}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;align-items:end;margin-bottom:40px}
+.head p{color:var(--muted);font-size:18px}
+@media (max-width:820px){.head{grid-template-columns:minmax(0,1fr)}}
+/* market / events */
+.events{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:900px){.events{grid-template-columns:minmax(0,1fr)}}
+.ev{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:20px 0;border-top:2px solid var(--fg)}
+.hexdate{width:64px;height:72px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--squash);color:#2B2B26;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--f-mono);line-height:1}
+.hexdate b{font-size:22px}.hexdate small{font-size:10px;letter-spacing:.1em}
+.ev .where{font:500 12px/1.3 var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
+.ev p{color:var(--muted);font-size:15px;margin-top:6px}
+.market{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;align-items:center;margin-top:64px}
+.market img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.hours{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:20px;font-size:15px}
+.hours dt{font-family:var(--f-mono);font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.hours dd{margin:0}
+@media (max-width:900px){.market{grid-template-columns:minmax(0,1fr)}}
+/* spaces */
+.spaces-sec{background:var(--card)}
+.spaces{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:980px){.spaces{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.spaces{grid-template-columns:minmax(0,1fr)}}
+.sp{display:flex;flex-direction:column;background:var(--bg);min-width:0}
+.sp img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+.sp .in{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.sp .facts{display:flex;flex-wrap:wrap;gap:6px 14px;font:500 12px/1.4 var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.sp p{font-size:15px;color:var(--muted)}
+.sp .btn{margin-top:auto;align-self:flex-start}
+.booking{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:48px;margin-top:72px;align-items:start}
+@media (max-width:900px){.booking{grid-template-columns:minmax(0,1fr)}}
+form.f{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+form.f .full{grid-column:1/-1}
+@media (max-width:560px){form.f{grid-template-columns:minmax(0,1fr)}}
+label{display:flex;flex-direction:column;gap:6px;font:600 12px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+input,select,textarea{font:400 16px/1.4 var(--f-body);color:var(--fg);background:var(--bg);border:1.5px solid var(--line);border-radius:2px;padding:11px 12px;width:100%;min-width:0}
+textarea{min-height:96px;resize:vertical}
+.ok{display:none;border-left:4px solid var(--leaf);background:var(--bg);padding:14px 16px;font-size:15px}
+.ok.show{display:block}
+.reqs{margin-top:18px;font-size:14px;color:var(--muted)}
+.reqs li{margin:4px 0}
+/* building band */
+.bld{background:var(--band);color:var(--band-fg)}
+.bld .head p,.bld .muted{color:var(--band-muted)}
+.bld .eyebrow{color:var(--squash)}
+.chapter{border-top:1px solid var(--band-line);padding-top:28px;margin-top:72px}
+.chapter:first-of-type{margin-top:0}
+.chap-h{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;margin-bottom:22px}
+.chap-h h3{font-size:30px;font-variation-settings:"wdth" 75;text-transform:uppercase;font-weight:800}
+.chap-h p{color:var(--band-muted);font-size:16px}
+.dev{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.dev img,.diag img{width:100%;display:block;background:#FAF7F0}
+@media (max-width:820px){.dev{grid-template-columns:minmax(0,1fr)}}
+.diag{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
+.diag figure{margin:0}.diag figcaption{font:500 12px/1.4 var(--f-mono);color:var(--band-muted);margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:620px){.diag{grid-template-columns:minmax(0,1fr)}}
+/* viewer */
+.viewer{position:relative;background:#cfd6dd;aspect-ratio:16/9;max-height:78vh;width:100%;overflow:hidden;touch-action:none;user-select:none}
+@media (max-width:700px){.viewer{aspect-ratio:4/5}}
+.viewer canvas{width:100%;height:100%;display:block;cursor:grab}
+.viewer canvas:active{cursor:grabbing}
+.vbar{position:absolute;left:12px;right:12px;bottom:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;pointer-events:none}
+.vbar>*{pointer-events:auto}
+.seg{display:flex;background:rgba(28,33,23,.82);backdrop-filter:blur(6px);border-radius:2px;overflow:hidden}
+.seg button{background:transparent;border:0;color:#EFE8D8;font:600 12px/1 var(--f-mono);letter-spacing:.06em;padding:10px 11px;cursor:pointer;text-transform:uppercase}
+.seg button[aria-pressed="true"]{background:var(--squash);color:#2B2B26}
+.sun{display:flex;align-items:center;gap:10px;background:rgba(28,33,23,.82);backdrop-filter:blur(6px);color:#EFE8D8;padding:6px 12px;border-radius:2px;font:500 12px/1 var(--f-mono);flex:1 1 280px;min-width:0}
+.sun input[type=range]{flex:1;min-width:80px;padding:0;border:0;background:transparent;accent-color:var(--squash)}
+.sun select{width:auto;padding:4px 6px;font:500 12px var(--f-mono);background:#2F3824;color:#EFE8D8;border:1px solid #4A5638}
+.vtip{position:absolute;top:12px;left:12px;font:500 12px/1.4 var(--f-mono);color:#2B2B26;background:rgba(250,247,240,.85);padding:6px 9px;border-radius:2px;pointer-events:none}
+.vload{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 14px var(--f-mono);color:#2B2B26}
+/* plans */
+.plans{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px}
+@media (max-width:900px){.plans{grid-template-columns:minmax(0,1fr)}}
+.plan-box{background:#FAF7F0;position:relative;overflow:auto}
+.plan-box svg{display:block;width:100%;height:auto;min-width:640px}
+.plan-box .room{fill:rgba(201,161,59,0);stroke:none;cursor:pointer;transition:fill .15s}
+.plan-box .room:hover,.plan-box .room.sel{fill:rgba(201,161,59,.38);stroke:#8E3B2E;stroke-width:.6}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button{background:transparent;border:1.5px solid var(--band-line);color:var(--band-fg);font:600 13px/1 var(--f-mono);padding:9px 14px;cursor:pointer;letter-spacing:.06em}
+.tabs button[aria-pressed="true"]{background:var(--squash);border-color:var(--squash);color:#2B2B26}
+.rinfo{background:var(--band-card);padding:20px;display:flex;flex-direction:column;gap:10px;align-self:start}
+.rinfo .big{font:800 28px/1 var(--f-display);font-variation-settings:"wdth" 75;text-transform:uppercase}
+.rinfo dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:14px}
+.rinfo dt{font:500 12px/1.6 var(--f-mono);color:var(--band-muted);text-transform:uppercase}
+.rinfo dd{margin:0}
+.rlist{list-style:none;padding:0;margin:6px 0 0;font-size:14px;max-height:260px;overflow:auto}
+.rlist li button{all:unset;cursor:pointer;display:flex;justify-content:space-between;gap:12px;width:100%;padding:5px 0;border-bottom:1px solid var(--band-line)}
+.rlist li button:hover{color:var(--squash)}
+.rlist .mono{color:var(--band-muted);font-size:12px}
+/* drawing galleries */
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.dgrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:820px){.dgrid,.dgrid.three{grid-template-columns:minmax(0,1fr)}}
+.dgrid figure,.wide{margin:0;cursor:zoom-in}
+.dgrid img,.wide img{width:100%;display:block;background:#FAF7F0}
+figcaption{font:500 12px/1.4 var(--f-mono);color:var(--band-muted);margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+.split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:minmax(0,1fr)}}
+.facts3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--band-line);margin-top:18px}
+.facts3 div{background:var(--band);padding:16px 14px}
+.facts3 b{display:block;font:800 34px/1 var(--f-display);font-variation-settings:"wdth" 70;color:var(--squash)}
+.facts3 span{font-size:13px;color:var(--band-muted)}
+@media (max-width:560px){.facts3{grid-template-columns:minmax(0,1fr)}}
+.layers{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.layers li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:start;font-size:15px}
+.layers li i{font:600 12px/26px var(--f-mono);font-style:normal;text-align:center;width:26px;height:26px;border-radius:50%;background:var(--apple);color:#FAF7F0}
+.renders{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.renders figure{margin:0;cursor:zoom-in;grid-column:span 2}
+.renders figure.big{grid-column:span 3}
+.renders img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+@media (max-width:760px){.renders{grid-template-columns:minmax(0,1fr)}.renders figure,.renders figure.big{grid-column:auto}}
+/* team */
+.jobs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start}
+@media (max-width:900px){.jobs{grid-template-columns:minmax(0,1fr)}}
+.job{border-top:2px solid var(--fg);padding:16px 0 18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px}
+.job .meta{font:500 12px/1.4 var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.job p{grid-column:1/-1;color:var(--muted);font-size:15px}
+.job button{grid-row:1/3;grid-column:2;align-self:start}
+footer{background:var(--deep);color:#D9D3BF;padding-block:48px;font-size:14px}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:28px}
+footer b{color:#FAF7F0;display:block;margin-bottom:6px;font:700 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+footer .note{grid-column:1/-1;border-top:1px solid #4A5638;padding-top:18px;color:#B9B79F;font-size:13px}
+@media (max-width:760px){footer .wrap{grid-template-columns:minmax(0,1fr)}}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:80;background:rgba(14,16,12,.92);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;background:#FAF7F0}
+.lb button{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
+</style>
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="The Hex home">
+      <svg viewBox="0 0 26 30" aria-hidden="true"><path d="M13 1 25 8v14l-12 7L1 22V8z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 8 19 11.5v7L13 22l-6-3.5v-7z" fill="#C9A13B"/></svg>
+      The Hex
+    </a>
+    <nav aria-label="Main">
+      <a href="#market">Market + events</a><a href="#spaces">Spaces</a><a href="#building">The building</a><a href="#team">Join our team</a>
+    </nav>
+    <a class="btn" href="#book">Book a room</a>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <img src="img/hero.jpg" alt="The Hex at dusk from Detroit Street: the market canopy, stalls and the glowing hexagonal facade">
+  <div class="wrap">
+    <div class="eyebrow" style="color:#E8C877;margin-bottom:14px">Detroit Street · Kerrytown · Ann Arbor</div>
+    <h1>The Hex</h1>
+    <div class="sub">
+      <p>A covered market, two event halls and a learning floor under one precast roof. Open to everyone, every day of the week.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="#book">Book a room</a><a class="btn ghost" href="#building">Explore the building</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <div><b>Market</b><span>Wed + Sat · 7am–3pm</span></div>
+    <div><b>Building</b><span>Daily · 8am–10pm</span></div>
+    <div><b>Café</b><span>Daily · 7am–6pm</span></div>
+    <div><b>Stalls</b><span>26 covered · 10'×10'</span></div>
+  </div>
+</div>
+
+<section id="market">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow">Market + events</div><h2>This week at the Hex</h2></div>
+      <p>Farmers and makers fill the canopies on market days. In the evenings the halls host suppers, lectures, recitals and classes. Sample program for the review week.</p>
+    </div>
+    <div class="events">
+      <article class="ev"><div class="hexdate"><small>WED</small><b>18</b></div><div><h3>Market morning</h3><div class="where">Covered market · 7am–3pm</div><p>26 stalls under the canopies along Detroit Street: late apples, squash, bread and flowers.</p></div></article>
+      <article class="ev"><div class="hexdate"><small>THU</small><b>19</b></div><div><h3>Precast, explained</h3><div class="where">Classroom 2 · 6pm</div><p>An evening talk on how the building's double tees span 58 feet without a column.</p></div></article>
+      <article class="ev"><div class="hexdate"><small>FRI</small><b>20</b></div><div><h3>Harvest supper</h3><div class="where">Large event hall · 7pm</div><p>Long tables on the hall floor, cooked from the morning's market.</p></div></article>
+      <article class="ev"><div class="hexdate"><small>SAT</small><b>21</b></div><div><h3>Saturday market</h3><div class="where">Covered market + plaza · 7am–3pm</div><p>The full market, with stalls spilling onto the entry plaza and the café terrace.</p></div></article>
+      <article class="ev"><div class="hexdate"><small>SAT</small><b>21</b></div><div><h3>Kids' build lab</h3><div class="where">Workshop · 10am</div><p>Hexagon kits and cardboard canopies for ages 6 to 12.</p></div></article>
+      <article class="ev"><div class="hexdate"><small>SUN</small><b>22</b></div><div><h3>Chamber recital</h3><div class="where">Small event hall · 4pm</div><p>A hundred seats under the clerestory as the sun drops behind the south bar.</p></div></article>
+    </div>
+    <div class="market">
+      <img src="img/market.jpg" alt="Market stalls under the sloped canopy at dusk" loading="lazy">
+      <div>
+        <div class="eyebrow">The covered market</div>
+        <h3 style="font-size:34px;margin-top:8px;font-variation-settings:'wdth' 75;text-transform:uppercase;font-weight:800">Under the canopy, rain or shine</h3>
+        <p style="margin-top:14px;color:var(--muted)">Two sloped double-tee canopies cover the market rows along Detroit Street. Vendors unload at the curb, set up under cover and plug into power fed by the canopy's own solar panels.</p>
+        <dl class="hours">
+          <dt>Market days</dt><dd>Wednesday + Saturday, 7am–3pm</dd>
+          <dt>Stalls</dt><dd>26 stalls, 10'×10', 20 under the market canopy</dd>
+          <dt>Loading</dt><dd>Vendor drop-off along Detroit Street</dd>
+          <dt>Getting here</dt><dd>Kerrytown, Ann Arbor; bike racks at the entry plaza</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="spaces" class="spaces-sec">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow">Spaces</div><h2>Rooms for every kind of gathering</h2></div>
+      <p>From a 100-seat recital to a column-free hall for a whole neighborhood. Pick a space, then send a booking request below.</p>
+    </div>
+    <div class="spaces" id="spaceCards"></div>
+    <div class="booking" id="book">
+      <div>
+        <div class="eyebrow">Book a room</div>
+        <h2 style="margin-top:8px">Request a booking</h2>
+        <p style="margin-top:14px;color:var(--muted)">Tell us the space, the date and how many people. The events team confirms within two working days.</p>
+        <p style="margin-top:14px;color:var(--muted);font-size:14px" id="bkNote">Concept site: requests stay in this browser and nothing is sent.</p>
+        <ul class="reqs" id="reqList"></ul>
+      </div>
+      <form class="f" id="bookForm" novalidate>
+        <label class="full" for="bk-space">Space<select id="bk-space" required></select></label>
+        <label for="bk-date">Date<input id="bk-date" type="date" required></label>
+        <label for="bk-time">Start time<input id="bk-time" type="time" value="18:00" required></label>
+        <label for="bk-people">People<input id="bk-people" type="number" min="1" value="40" required></label>
+        <label for="bk-type">Event type<select id="bk-type"><option>Community event</option><option>Private event</option><option>Class or workshop</option><option>Meeting</option><option>Market stall</option></select></label>
+        <label for="bk-name">Name<input id="bk-name" autocomplete="name" required></label>
+        <label for="bk-email">Email<input id="bk-email" type="email" autocomplete="email" required></label>
+        <label class="full" for="bk-notes">Tell us about it<textarea id="bk-notes" placeholder="Layout, catering, AV, accessibility needs"></textarea></label>
+        <div class="full" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send request</button><span id="bkErr" style="color:var(--accent);font-size:14px"></span></div>
+        <div class="ok full" id="bkOk" role="status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="building" class="bld">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow">The building</div><h2>How the Hex is made</h2></div>
+      <p>Two precast bars on 12-foot double-tee grids, a hexagonal skin and two sloped canopies that carry the market and 968 solar panels.</p>
+    </div>
+
+    <div class="chapter">
+      <div class="chap-h"><h3>Concept</h3><p>Three moves, from the site to the roof.</p></div>
+      <div class="dev">
+        <img src="dwg/dev1.jpg" alt="Diagram 1: two bars on two grids" loading="lazy">
+        <img src="dwg/dev2.jpg" alt="Diagram 2: stack the halls, carve the light" loading="lazy">
+        <img src="dwg/dev3.jpg" alt="Diagram 3: cover the market, harvest the sun" loading="lazy">
+      </div>
+      <div class="diag">
+        <figure><img src="dwg/ctx.jpg" alt="Context diagram" loading="lazy"><figcaption>Context · Kerrytown block</figcaption></figure>
+        <figure><img src="dwg/veh.jpg" alt="Vehicular and service diagram" loading="lazy"><figcaption>Vehicles + service</figcaption></figure>
+        <figure><img src="dwg/ped.jpg" alt="Pedestrian and market diagram" loading="lazy"><figcaption>Pedestrians + market</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="chapter" id="model">
+      <div class="chap-h"><h3>Walk around it</h3><p>Drag to orbit, scroll or pinch to zoom, right-drag or two fingers to pan. Cut a level, slice a section, move the sun.</p></div>
+      <div class="viewer" id="viewer">
+        <canvas id="gl" aria-label="3D model of The Hex"></canvas>
+        <div class="vload" id="vload">Loading the model…</div>
+        <div class="vtip" id="vtip">Whole building</div>
+        <div class="vbar">
+          <div class="seg" role="group" aria-label="Cut level">
+            <button data-cut="all" aria-pressed="true">All</button><button data-cut="roof">Roof off</button><button data-cut="L3">L3</button><button data-cut="L2">L2</button><button data-cut="L1">L1</button><button data-cut="B">B</button>
+          </div>
+          <div class="seg" role="group" aria-label="Section and context">
+            <button id="secBtn" aria-pressed="false">Section</button><button id="ctxBtn" aria-pressed="true">Context</button><button id="resetBtn">Reset</button>
+          </div>
+          <div class="sun">
+            <label for="sunDate" style="all:unset">Sun</label>
+            <select id="sunDate" aria-label="Date"><option value="79">Mar 20</option><option value="172" selected>Jun 21</option><option value="265">Sep 22</option><option value="355">Dec 21</option></select>
+            <input id="sunTime" type="range" min="4.5" max="21.5" step="0.05" value="16" aria-label="Time of day">
+            <span id="sunLbl" class="mono" style="min-width:76px;text-align:right">4:00 pm</span>
+          </div>
+          <div class="sun" id="secWrap" hidden style="flex-basis:220px">
+            <span>Cut</span><input id="secPos" type="range" min="-125" max="100" step="1" value="-30" aria-label="Section position"><span id="secLbl" class="mono">N–S</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter" id="plans">
+      <div class="chap-h"><h3>Plans</h3><p>Pick a level, then a room, to see what it holds.</p></div>
+      <div class="tabs" role="group" aria-label="Level">
+        <button data-lv="B">Basement</button><button data-lv="L1" aria-pressed="true">Level 1</button><button data-lv="L2">Level 2</button><button data-lv="L3">Level 3</button>
+      </div>
+      <div class="plans">
+        <div class="plan-box" id="planBox"></div>
+        <aside class="rinfo" id="rinfo" aria-live="polite"></aside>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chap-h"><h3>Sections + elevations</h3><p>One long section through both halls and the market, three cross sections and four elevations.</p></div>
+      <figure class="wide" data-zoom><img src="dwg/sec_long.jpg" alt="Longitudinal section through both event halls and the covered market" loading="lazy"><figcaption>Longitudinal section · both halls + market · 1/8" = 1'-0" on the boards</figcaption></figure>
+      <div class="dgrid three" style="margin-top:18px">
+        <figure data-zoom><img src="dwg/sec_A.jpg" alt="Section A" loading="lazy"><figcaption>Section A · both event halls</figcaption></figure>
+        <figure data-zoom><img src="dwg/sec_B.jpg" alt="Section B" loading="lazy"><figcaption>Section B · café + courtyard</figcaption></figure>
+        <figure data-zoom><img src="dwg/sec_C.jpg" alt="Section C" loading="lazy"><figcaption>Section C · open stair</figcaption></figure>
+      </div>
+      <div class="dgrid" style="margin-top:18px">
+        <figure data-zoom><img src="dwg/el_N.jpg" alt="North elevation" loading="lazy"><figcaption>North elevation</figcaption></figure>
+        <figure data-zoom><img src="dwg/el_S.jpg" alt="South elevation" loading="lazy"><figcaption>South elevation</figcaption></figure>
+        <figure data-zoom><img src="dwg/el_E.jpg" alt="East elevation" loading="lazy"><figcaption>East elevation</figcaption></figure>
+        <figure data-zoom><img src="dwg/el_W.jpg" alt="West elevation" loading="lazy"><figcaption>West elevation</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chap-h"><h3>Structure + skin</h3><p>Precast double tees in three bay sizes, and a hexagonal skin hung on the slab edges.</p></div>
+      <div class="split">
+        <figure class="wide" data-zoom><img src="dwg/explode.jpg" alt="Exploded axonometric of the building systems" loading="lazy"><figcaption>Exploded systems · floors coloured by bay</figcaption></figure>
+        <div>
+          <div class="facts3">
+            <div><b>58'</b><span>Large bay · clear double-tee span over both event halls</span></div>
+            <div><b>46'</b><span>Medium bay · lobby, offices, classrooms</span></div>
+            <div><b>19'-6"</b><span>Small bay · restrooms, slot, services</span></div>
+          </div>
+          <p class="muted" style="margin-top:22px">Precast columns stand under every double-tee stem. Two concrete cores hold the stairs and elevators. The skin is built in 6-foot bays, inside to outside:</p>
+          <ol class="layers" style="margin-top:14px">
+            <li><i>A</i><span>Precast double-tee slab edges and the 1'-0" sloped roof plane</span></li>
+            <li><i>B</i><span>Insulated infill panels where the hexagons meet</span></li>
+            <li><i>C</i><span>Insulated glass in the hex lites and the clerestory band</span></li>
+            <li><i>D</i><span>Hexagonal aluminium frames, 6'-0" flat to flat</span></li>
+            <li><i>E</i><span>Vertical fins on the bay lines</span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="dgrid three" style="margin-top:18px">
+        <figure data-zoom><img src="dwg/enclosure.jpg" alt="Exploded hex enclosure bay" loading="lazy"><figcaption>One hex bay, exploded</figcaption></figure>
+        <figure data-zoom><img src="dwg/wall.jpg" alt="Wall section at 1/4 inch" loading="lazy"><figcaption>Wall section · north face · 1/4" = 1'-0"</figcaption></figure>
+        <figure data-zoom><img src="dwg/stack.jpg" alt="Program and circulation stack" loading="lazy"><figcaption>Program + circulation</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chap-h"><h3>Energy</h3><p>Every south-tilted roof and canopy carries solar panels.</p></div>
+      <div class="facts3" style="margin-top:0;margin-bottom:18px">
+        <div><b>968</b><span>PV modules · 620 W each</span></div>
+        <div><b>~600 kW</b><span>DC capacity on roofs + canopies</span></div>
+        <div><b>928,186 kWh</b><span>per year · about 186% of the 500 MWh target</span></div>
+      </div>
+      <div class="dgrid three">
+        <figure data-zoom><img src="dwg/sunpath.jpg" alt="Sun path diagram" loading="lazy"><figcaption>Sun path · Ann Arbor 42.3°N</figcaption></figure>
+        <figure data-zoom><img src="dwg/facades.jpg" alt="Window-to-wall ratio by orientation" loading="lazy"><figcaption>Glass by orientation · 41% overall</figcaption></figure>
+        <figure data-zoom><img src="dwg/pv.jpg" alt="PV arrays and monthly output" loading="lazy"><figcaption>PV arrays + monthly output</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chap-h"><h3>Through the day</h3><p>Dusk on Detroit Street, inside the halls, and the same view at three times of year.</p></div>
+      <div class="renders">
+        <figure class="big" data-zoom><img src="img/birdseye.jpg" alt="Bird's-eye view at dusk" loading="lazy"><figcaption>Bird's-eye from the southeast</figcaption></figure>
+        <figure class="big" data-zoom><img src="img/plaza.jpg" alt="Entry plaza at dusk" loading="lazy"><figcaption>Entry plaza from the northeast</figcaption></figure>
+        <figure data-zoom><img src="img/lobby.jpg" alt="Lobby and gallery" loading="lazy"><figcaption>Arrival · lobby + gallery</figcaption></figure>
+        <figure data-zoom><img src="img/hall_large.jpg" alt="Large event hall" loading="lazy"><figcaption>Large event hall · L1</figcaption></figure>
+        <figure data-zoom><img src="img/hall_small.jpg" alt="Small event hall" loading="lazy"><figcaption>Small event hall · L3</figcaption></figure>
+        <figure data-zoom><img src="img/day_mar.jpg" alt="Daylight study March 21, 9am" loading="lazy"><figcaption>Mar 21 · 9:00</figcaption></figure>
+        <figure data-zoom><img src="img/day_jun.jpg" alt="Daylight study June 21, noon" loading="lazy"><figcaption>Jun 21 · 12:00</figcaption></figure>
+        <figure data-zoom><img src="img/day_dec.jpg" alt="Daylight study December 21, 2pm" loading="lazy"><figcaption>Dec 21 · 14:00</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow">Join our team</div><h2>Work at the Hex</h2></div>
+      <p>We run a market, two halls, a learning floor and a building that makes its own power. Come help.</p>
+    </div>
+    <div class="jobs">
+      <div id="jobList"></div>
+      <form class="f" id="applyForm" novalidate>
+        <label class="full" for="ap-role">Role<select id="ap-role"></select></label>
+        <label for="ap-name">Name<input id="ap-name" autocomplete="name" required></label>
+        <label for="ap-email">Email<input id="ap-email" type="email" autocomplete="email" required></label>
+        <label class="full" for="ap-cv">Résumé (PDF)<input id="ap-cv" type="file" accept=".pdf,.doc,.docx"></label>
+        <label class="full" for="ap-why">Why the Hex?<textarea id="ap-why"></textarea></label>
+        <div class="full" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send application</button><span id="apErr" style="color:var(--accent);font-size:14px"></span></div>
+        <div class="ok full" id="apOk" role="status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>The Hex</b>Detroit Street, Kerrytown<br>Ann Arbor, Michigan</div>
+    <div><b>Hours</b>Building daily 8am–10pm<br>Market Wed + Sat 7am–3pm</div>
+    <div><b>Visit</b><a href="#market">Market + events</a><br><a href="#book">Book a room</a><br><a href="#team">Join our team</a></div>
+    <div class="note">The Hex is a student design proposal by Donovan Yousif for ARC 3114 Integrated Design 3, Lawrence Technological University. It is not an operating venue; events are sample programming.</div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" hidden><img id="lbImg" alt=""><button class="btn" id="lbClose">Close</button></div>
+
+<script>
+// ---------------------------------------------------------------- backend (Google Apps Script web app). Paste its /exec URL here.
+const HEX_API = '';
+async function sendToSheet(payload){
+  if(!HEX_API) return {ok:false,local:true};
+  try{const r=await fetch(HEX_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});return await r.json();}
+  catch(e){return {ok:false,error:String(e)};}
+}
+// ---------------------------------------------------------------- data
+const SPACES=[
+ {id:'large',name:'Large event hall',img:'img/hall_large.jpg',facts:['Level 1','6,793 sf','40\' clear'],text:'Column-free under 58-foot double tees, with an event elevator straight from the loading drive. Suppers, fairs, dances.',room:'Large Event Floor'},
+ {id:'small',name:'Small event hall',img:'img/hall_small.jpg',facts:['Level 3','6,292 sf','100 seats'],text:'Recitals, lectures and receptions under the clerestory, stacked above the large hall.',room:'Small Event Floor'},
+ {id:'gallery',name:'Gallery',img:'img/lobby.jpg',facts:['Level 1','3,586 sf','Off the lobby'],text:'The double-height arrival hall. Exhibitions, pop-ups and receptions next to the café.',room:'Gallery'},
+ {id:'class',name:'Classrooms 1–4',img:'dwg/plan_L3.png',facts:['Level 3','436–448 sf','18 seats each'],text:'Four rooms on the learning floor around the courtyard. Workshops, courses and club meetings.',room:'Classroom'},
+ {id:'conf',name:'Conference room',img:'dwg/plan_L2.png',facts:['Level 2','292 sf','14 seats'],text:'A quiet table for boards and committees, in the admin suite with a screen wall.',room:'Conference'},
+ {id:'stall',name:'Market stall',img:'img/market.jpg',facts:['Canopy','10\'×10\'','26 stalls'],text:'A covered stall for a market day. Power from the canopy solar panels.',room:null}];
+const JOBS=[
+ {t:'Market coordinator',m:'Full time · Market',d:'Run the Wednesday and Saturday markets: vendor schedules, stall layout, curbside loading.'},
+ {t:'Events + rentals manager',m:'Full time · Events',d:'Book and run the halls, gallery and classrooms, from first inquiry to clean-up.'},
+ {t:'Education program lead',m:'Full time · Learning floor',d:'Plan courses, kids\' labs and lectures for the four classrooms.'},
+ {t:'Building systems technician',m:'Full time · Facilities',d:'Keep the 968-panel solar array, the heat pumps and the hex skin in shape.'},
+ {t:'Café lead',m:'Part time · Café',d:'Run the café and bar off the gallery, cooking from the market.'}];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+// ---------------------------------------------------------------- spaces + booking
+$('#spaceCards').innerHTML=SPACES.map(s=>`<article class="sp"><img src="${s.img}" alt="${s.name}" loading="lazy" style="${s.img.endsWith('.png')?'object-fit:cover;object-position:70% 30%;background:#FAF7F0':''}"><div class="in"><h3>${s.name}</h3><div class="facts">${s.facts.map(f=>`<span>${f}</span>`).join('')}</div><p>${s.text}</p><a class="btn ghost" href="#book" data-book="${s.id}">Book this space</a></div></article>`).join('');
+$('#bk-space').innerHTML=SPACES.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+function pick(id){$('#bk-space').value=id;}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-book]');if(a)pick(a.dataset.book);});
+try{const d=new Date(Date.now()+14*864e5);$('#bk-date').value=d.toISOString().slice(0,10);}catch(e){}
+const store={get(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function showReqs(){const r=store.get('hex-req');$('#reqList').innerHTML=r.length?'<li style="font-weight:600;color:var(--fg)">Your requests in this browser</li>'+r.map(x=>`<li>${x.space} · ${x.date} ${x.time} · ${x.people} people</li>`).join(''):'';}
+showReqs();
+if(HEX_API)$('#bkNote').textContent='Requests go to the Hex events team.';
+$('#bookForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;const bad=[...f.querySelectorAll('[required]')].filter(i=>!i.value||(i.type==='email'&&!/^\S+@\S+\.\S+$/.test(i.value)));
+ $('#bkErr').textContent=bad.length?'Add your '+bad.map(i=>i.closest('label').firstChild.textContent.trim().toLowerCase()).join(', ')+'.':'';if(bad.length){bad[0].focus();return;}
+ const s=SPACES.find(x=>x.id===$('#bk-space').value);const r=store.get('hex-req');r.unshift({space:s.name,date:$('#bk-date').value,time:$('#bk-time').value,people:$('#bk-people').value});store.set('hex-req',r.slice(0,6));
+ const btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Sending…';
+ const res=await sendToSheet({type:'booking',space:s.name,date:$('#bk-date').value,time:$('#bk-time').value,people:$('#bk-people').value,eventType:$('#bk-type').value,name:$('#bk-name').value,email:$('#bk-email').value,notes:$('#bk-notes').value});
+ btn.disabled=false;btn.textContent='Send request';
+ const who=$('#bk-email').value.replace(/</g,'');
+ $('#bkOk').innerHTML=res.ok?`<b>Request sent.</b> ${s.name} on ${$('#bk-date').value} at ${$('#bk-time').value} for ${$('#bk-people').value} people. The events team will reply to ${who}.`
+  :res.local?`<b>Request saved in this browser.</b> ${s.name} on ${$('#bk-date').value} at ${$('#bk-time').value} for ${$('#bk-people').value} people.`
+  :`<b>The request didn't go through.</b> Check your connection and try again.`;
+ $('#bkOk').classList.add('show');showReqs();});
+// ---------------------------------------------------------------- jobs
+$('#jobList').innerHTML=JOBS.map((j,i)=>`<div class="job"><h3>${j.t}</h3><button class="btn ghost" data-job="${i}">Apply</button><div class="meta">${j.m}</div><p>${j.d}</p></div>`).join('');
+$('#ap-role').innerHTML=JOBS.map(j=>`<option>${j.t}</option>`).join('');
+document.addEventListener('click',e=>{const b=e.target.closest('[data-job]');if(b){$('#ap-role').selectedIndex=+b.dataset.job;$('#ap-name').focus();}});
+function readFile(f){return new Promise(r=>{if(!f)return r(null);const fr=new FileReader();fr.onload=()=>r({name:f.name,mime:f.type||'application/octet-stream',data:fr.result.split(',')[1]});fr.onerror=()=>r(null);fr.readAsDataURL(f);});}
+$('#applyForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;const bad=[...f.querySelectorAll('[required]')].filter(i=>!i.value||(i.type==='email'&&!/^\S+@\S+\.\S+$/.test(i.value)));
+ $('#apErr').textContent=bad.length?'Add your name and a valid email.':'';if(bad.length){bad[0].focus();return;}
+ const cv=$('#ap-cv').files[0];if(cv&&cv.size>8e6){$('#apErr').textContent='Résumé must be under 8 MB.';return;}
+ const btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Sending…';
+ const res=await sendToSheet({type:'application',role:$('#ap-role').value,name:$('#ap-name').value,email:$('#ap-email').value,why:$('#ap-why').value,file:await readFile(cv)});
+ btn.disabled=false;btn.textContent='Send application';const nm=$('#ap-name').value.replace(/</g,'');
+ $('#apOk').innerHTML=res.ok?`<b>Application sent.</b> Thanks, ${nm}. We'll be in touch about the ${$('#ap-role').value.toLowerCase()} role.`
+  :res.local?`<b>Application saved.</b> Thanks, ${nm}.`:`<b>The application didn't go through.</b> Check your connection and try again.`;
+ $('#apOk').classList.add('show');});
+// ---------------------------------------------------------------- lightbox
+document.addEventListener('click',e=>{const f=e.target.closest('[data-zoom]');if(!f)return;const im=f.querySelector('img');$('#lbImg').src=im.src;$('#lbImg').alt=im.alt;$('#lb').hidden=false;$('#lbClose').focus();});
+$('#lbClose').onclick=()=>{$('#lb').hidden=true};$('#lb').addEventListener('click',e=>{if(e.target.id==='lb')$('#lb').hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#lb').hidden=true});
+// ---------------------------------------------------------------- model meta (shared by plans + viewer)
+let META=null;
+const metaP=fetch('model.json').then(r=>r.json()).then(m=>{META=m;return m;});
+// ---------------------------------------------------------------- plans
+const BOOKABLE=[['Large Event','large'],['Small Event','small'],['Gallery','gallery'],['Classroom','class'],['Conference','conf']];
+function cleanName(n){return n.replace(/\s*\(.*\)\s*/,'').replace("'s",'’s');}
+let curLv='L1',selRoom=null;
+function drawPlan(){const m=META,p=m.plans[curLv];const W=p.X1-p.X0,H=p.Y1-p.Y0,Hs=H+9.6;
+ const rooms=m.rooms.map((r,i)=>({...r,i})).filter(r=>r.lv===curLv);
+ $('#planBox').innerHTML=`<svg viewBox="${p.X0} ${-p.Y1} ${W} ${Hs}" role="img" aria-label="${curLv} plan"><image href="${p.img}" x="${p.X0}" y="${-p.Y1}" width="${W}" height="${Hs}" preserveAspectRatio="none"/>${rooms.map(r=>`<polygon class="room${selRoom===r.i?' sel':''}" data-r="${r.i}" points="${r.pts.map(q=>q[0]+','+(-q[1])).join(' ')}"><title>${cleanName(r.name)}</title></polygon>`).join('')}</svg>`;
+ $$('#planBox .room').forEach(el=>{el.addEventListener('click',()=>{selRoom=+el.dataset.r;drawPlan();info();});});
+ info();}
+function info(){const m=META;const rooms=m.rooms.map((r,i)=>({...r,i})).filter(r=>r.lv===curLv);const r=rooms.find(x=>x.i===selRoom);
+ const total=rooms.reduce((a,b)=>a+b.area,0);const LVN={B:'Basement',L1:'Level 1',L2:'Level 2',L3:'Level 3'}[curLv];
+ let h='';
+ if(r){const bk=BOOKABLE.find(b=>r.name.includes(b[0]));
+  h+=`<div class="eyebrow">${LVN}</div><div class="big">${cleanName(r.name)}</div><dl><dt>Area</dt><dd class="mono">${r.area.toLocaleString()} sf</dd>${/\(/.test(r.name)?`<dt>Note</dt><dd>${r.name.match(/\((.*)\)/)[1]}</dd>`:''}</dl>${bk?`<a class="btn" href="#book" data-book="${bk[1]}" style="align-self:flex-start">Book this space</a>`:''}`;}
+ else h+=`<div class="eyebrow">${LVN}</div><div class="big">${rooms.length} rooms</div><p class="muted" style="font-size:14px">${total.toLocaleString()} sf of programmed rooms. Click a room on the plan or in the list.</p>`;
+ h+=`<ul class="rlist">${rooms.map(x=>`<li><button data-pick="${x.i}"><span>${cleanName(x.name)}</span><span class="mono">${x.area.toLocaleString()} sf</span></button></li>`).join('')}</ul>`;
+ $('#rinfo').innerHTML=h;$$('#rinfo [data-pick]').forEach(b=>b.onclick=()=>{selRoom=+b.dataset.pick;drawPlan();});}
+$$('.tabs button').forEach(b=>b.onclick=()=>{$$('.tabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));curLv=b.dataset.lv;selRoom=null;drawPlan();});
+metaP.then(drawPlan).catch(()=>{$('#planBox').innerHTML='<p style="padding:20px;color:#2B2B26">The plans could not load.</p>';});
+// ---------------------------------------------------------------- 3D viewer (WebGL2, no libraries)
+(function(){
+const cv=$('#gl');const G=cv.getContext('webgl2',{antialias:true,preserveDrawingBuffer:true});
+if(!G){$('#vload').textContent='This browser cannot show the 3D model (WebGL2 is off).';return;}
+// math
+const mul=(a,b)=>{const r=new Float32Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++){let s=0;for(let k=0;k<4;k++)s+=a[k*4+j]*b[i*4+k];r[i*4+j]=s;}return r;};
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],nz=a=>{const l=Math.hypot(...a);return a.map(v=>v/l)},dt=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const look=(e,t,u)=>{const f=nz(sub(t,e)),s=nz(cr(f,u)),q=cr(s,f);return new Float32Array([s[0],q[0],-f[0],0,s[1],q[1],-f[1],0,s[2],q[2],-f[2],0,-dt(s,e),-dt(q,e),dt(f,e),1]);};
+const persp=(fv,a,n,f)=>{const t=1/Math.tan(fv/2);return new Float32Array([t/a,0,0,0,0,t,0,0,0,0,(f+n)/(n-f),-1,0,0,2*f*n/(n-f),0]);};
+const ortho=(l,r,b,t,n,f)=>new Float32Array([2/(r-l),0,0,0,0,2/(t-b),0,0,0,0,-2/(f-n),0,-(r+l)/(r-l),-(t+b)/(t-b),-(f+n)/(f-n),1]);
+// sun (NOAA), Ann Arbor, EST
+function sunpos(doy,hour){const LAT=42.2808,LON=-83.743,TZ=-5,g=2*Math.PI/365*(doy-1+(hour-12)/24);
+ const eqt=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g));
+ const dec=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g);
+ const tst=hour*60+eqt+4*LON-60*TZ,ha=(tst/4-180)*Math.PI/180,la=LAT*Math.PI/180;
+ const cz=Math.sin(la)*Math.sin(dec)+Math.cos(la)*Math.cos(dec)*Math.cos(ha),zen=Math.acos(Math.max(-1,Math.min(1,cz)));
+ let az=Math.acos(Math.max(-1,Math.min(1,(Math.sin(la)*Math.cos(zen)-Math.sin(dec))/(Math.cos(la)*Math.sin(zen)+1e-9))))*180/Math.PI;
+ az=ha>0?(az+180)%360:(540-az)%360;return{alt:90-zen*180/Math.PI,az};}
+// shaders
+const VS=`#version 300 es
+in vec3 p;uniform mat4 VP;uniform float q;out vec3 wp;void main(){wp=p*q;gl_Position=VP*vec4(wp,1.);}`;
+const FS=`#version 300 es
+precision highp float;in vec3 wp;uniform vec3 col;uniform vec3 eye;uniform vec3 sun;uniform vec3 sunc;uniform vec3 amb;uniform mat4 SVP;uniform sampler2D sm;
+uniform float clipZ;uniform float secX;uniform float bld;uniform float alpha;uniform vec3 emis;uniform float pv;out vec4 o;
+void main(){if(bld>.5&&(wp.z>clipZ||wp.x>secX))discard;
+ vec3 N=normalize(cross(dFdx(wp),dFdy(wp)));vec3 V=normalize(eye-wp);bool back=dot(N,V)<0.;if(back)N=-N;
+ if(bld>.5&&back&&alpha>.99&&(secX<900.||clipZ<900.)){o=vec4(.18,.22,.14,1.);return;}
+ vec4 s=SVP*vec4(wp+N*.4,1.);vec3 sc=s.xyz/s.w*.5+.5;float sh=1.;
+ if(sc.x>0.&&sc.x<1.&&sc.y>0.&&sc.y<1.){vec2 ts=1./vec2(textureSize(sm,0));sh=0.;for(int i=-1;i<=1;i++)for(int j=-1;j<=1;j++){float d=texture(sm,sc.xy+vec2(i,j)*ts*1.5).r;sh+=sc.z-.0015>d?0.:1.;}sh/=9.;}
+ float nl=max(dot(N,sun),0.);vec3 c=col*(sunc*nl*sh+amb*(.75+.25*N.z));
+ if(pv>.5){vec3 R=reflect(-V,N);c+=vec3(.5,.6,.75)*pow(max(R.z,0.),3.)*.25;}
+ c+=emis;
+ float d=length(eye-wp);c=mix(c,amb*1.1+vec3(.04),clamp((d-700.)/2200.,0.,.65));
+ o=vec4(pow(c,vec3(1./2.2)),alpha);}`;
+const SFS=`#version 300 es
+precision highp float;in vec3 wp;uniform float clipZ;uniform float secX;uniform float bld;out vec4 o;void main(){if(bld>.5&&(wp.z>clipZ||wp.x>secX))discard;o=vec4(1.);}`;
+const SKYV=`#version 300 es
+in vec2 a;out vec2 uv;void main(){uv=a*.5+.5;gl_Position=vec4(a,.9999,1.);}`;
+const SKYF=`#version 300 es
+precision highp float;in vec2 uv;uniform vec3 top;uniform vec3 hor;out vec4 o;void main(){o=vec4(pow(mix(hor,top,smoothstep(.15,1.,uv.y)),vec3(1./2.2)),1.);}`;
+function prog(v,f){const p=G.createProgram();[[G.VERTEX_SHADER,v],[G.FRAGMENT_SHADER,f]].forEach(([t,s])=>{const h=G.createShader(t);G.shaderSource(h,s);G.compileShader(h);if(!G.getShaderParameter(h,G.COMPILE_STATUS))throw new Error(G.getShaderInfoLog(h));G.attachShader(p,h);});G.linkProgram(p);if(!G.getProgramParameter(p,G.LINK_STATUS))throw new Error(G.getProgramInfoLog(p));return p;}
+const P=prog(VS,FS),PS=prog(VS,SFS),PK=prog(SKYV,SKYF);
+const U=(p,n)=>G.getUniformLocation(p,n);
+const COL={base:[.42,.45,.32],street:[.22,.23,.24],walk:[.62,.60,.55],plaza:[.72,.67,.58],context:[.70,.65,.58],concrete:[.80,.77,.71],slab:[.82,.79,.73],core:[.74,.71,.65],
+ stair:[.78,.75,.69],partition:[.90,.88,.84],roof:[.70,.68,.64],precast:[.84,.80,.72],panel:[.66,.62,.54],frame:[.34,.36,.38],metal:[.30,.33,.30],canopy:[.86,.83,.77],pv:[.10,.13,.22],glass:[.62,.74,.80],tree:[.33,.42,.20],trunk:[.30,.24,.18]};
+const CTX=new Set(['base','street','walk','context','tree','trunk']);const GROUND=new Set(['base','street','walk','plaza']);
+let groups=[],SM=2048,smTex,smFbo,dirtyShadow=true,dirty=false;
+// state
+const st={az:-50,el:26,dist:560,tx:-5,ty:0,tz:22,cut:'all',sec:false,secX:-30,ctx:true,doy:172,hour:16};
+function sunVec(){const s=sunpos(st.doy,st.hour);const a=s.alt*Math.PI/180,z=s.az*Math.PI/180;return{v:[Math.cos(a)*Math.sin(z),Math.cos(a)*Math.cos(z),Math.sin(a)],alt:s.alt};}
+function treeMesh(tr){const out=[],tk=[];const ico=(cx,cy,cz,r,rz)=>{const t=(1+Math.sqrt(5))/2;const v=[[-1,t,0],[1,t,0],[-1,-t,0],[1,-t,0],[0,-1,t],[0,1,t],[0,-1,-t],[0,1,-t],[t,0,-1],[t,0,1],[-t,0,-1],[-t,0,1]].map(nz);
+  const f=[[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]];
+  f.forEach(tri=>tri.forEach(i=>out.push(cx+v[i][0]*r,cy+v[i][2]*r,cz+v[i][1]*rz)));};
+ tr.forEach(([x,y,z],k)=>{const h=30+(k%5)*2;ico(x,y,z+h*.62,h*.28,h*.24);ico(x+3,y-2,z+h*.5,h*.2,h*.18);
+  const n=6;for(let i=0;i<n;i++){const a0=i/n*6.283,a1=(i+1)/n*6.283,r=.8;const p=(a,zz)=>[x+Math.cos(a)*r,y+Math.sin(a)*r,zz];const A=p(a0,z),B=p(a1,z),C=p(a1,z+h*.5),D=p(a0,z+h*.5);tk.push(...A,...B,...C,...A,...C,...D);}});
+ return{crown:new Float32Array(out),trunk:new Float32Array(tk)};}
+function vaoFrom(data,type){const vao=G.createVertexArray();G.bindVertexArray(vao);const b=G.createBuffer();G.bindBuffer(G.ARRAY_BUFFER,b);G.bufferData(G.ARRAY_BUFFER,data,G.STATIC_DRAW);
+ [P,PS].forEach(()=>{});G.enableVertexAttribArray(0);G.vertexAttribPointer(0,3,type,false,0,0);G.bindVertexArray(null);return vao;}
+[P,PS].forEach(p=>G.bindAttribLocation(p,0,'p'));G.linkProgram(P);G.linkProgram(PS);
+const skyVao=(()=>{const v=G.createVertexArray();G.bindVertexArray(v);const b=G.createBuffer();G.bindBuffer(G.ARRAY_BUFFER,b);G.bufferData(G.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),G.STATIC_DRAW);G.enableVertexAttribArray(0);G.vertexAttribPointer(0,2,G.FLOAT,false,0,0);G.bindVertexArray(null);return v;})();
+G.bindAttribLocation(PK,0,'a');G.linkProgram(PK);
+function initShadow(){smTex=G.createTexture();G.bindTexture(G.TEXTURE_2D,smTex);G.texImage2D(G.TEXTURE_2D,0,G.DEPTH_COMPONENT32F,SM,SM,0,G.DEPTH_COMPONENT,G.FLOAT,null);
+ G.texParameteri(G.TEXTURE_2D,G.TEXTURE_MIN_FILTER,G.NEAREST);G.texParameteri(G.TEXTURE_2D,G.TEXTURE_MAG_FILTER,G.NEAREST);G.texParameteri(G.TEXTURE_2D,G.TEXTURE_WRAP_S,G.CLAMP_TO_EDGE);G.texParameteri(G.TEXTURE_2D,G.TEXTURE_WRAP_T,G.CLAMP_TO_EDGE);
+ smFbo=G.createFramebuffer();G.bindFramebuffer(G.FRAMEBUFFER,smFbo);G.framebufferTexture2D(G.FRAMEBUFFER,G.DEPTH_ATTACHMENT,G.TEXTURE_2D,smTex,0);G.drawBuffers([G.NONE]);G.readBuffer(G.NONE);G.bindFramebuffer(G.FRAMEBUFFER,null);}
+initShadow();
+function cutZ(){const L=META.levels;return{all:1e4,roof:72,L3:L.L3+4,L2:L.L2+4,L1:L.L1+4,B:L.B+4}[st.cut];}
+function visible(g){if(!st.ctx&&CTX.has(g.name))return false;if(st.cut!=='all'&&(g.name==='pv'||g.name==='roof'))return false;return true;}
+let SVP;
+function draw(){dirty=false;if(!META||!groups.length)return;const W=cv.clientWidth*devicePixelRatio|0,H=cv.clientHeight*devicePixelRatio|0;if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
+ const s=sunVec();const night=s.alt<-.5,dusk=Math.max(0,Math.min(1,(8-s.alt)/10));const sunUp=Math.max(0,Math.min(1,(s.alt+1)/6));
+ const sunc=[1.6*sunUp,(1.45-.65*dusk)*sunUp,(1.25-.85*dusk)*sunUp],amb=night?[.06,.08,.14]:[.30-.12*dusk,.33-.12*dusk,.40-.08*dusk];
+ const cz=cutZ(),sx=st.sec?st.secX:1e4;
+ // shadow map (only when the sun or the cut changes)
+ const ctr=[0,0,20],sv=s.alt>0?s.v:[0,0,1],se=[ctr[0]+sv[0]*700,ctr[1]+sv[1]*700,ctr[2]+sv[2]*700];
+ SVP=mul(ortho(-330,330,-330,330,1,1600),look(se,ctr,Math.abs(sv[2])>.99?[0,1,0]:[0,0,1]));
+ if(dirtyShadow){dirtyShadow=false;G.bindFramebuffer(G.FRAMEBUFFER,smFbo);G.viewport(0,0,SM,SM);G.clear(G.DEPTH_BUFFER_BIT);G.enable(G.DEPTH_TEST);G.useProgram(PS);
+  G.uniformMatrix4fv(U(PS,'VP'),false,SVP);G.uniform1f(U(PS,'clipZ'),cz);G.uniform1f(U(PS,'secX'),sx);
+  groups.forEach(g=>{if(!visible(g)||g.name==='glass'||GROUND.has(g.name))return;G.uniform1f(U(PS,'q'),g.q);G.uniform1f(U(PS,'bld'),g.bld);G.bindVertexArray(g.vao);G.drawArrays(G.TRIANGLES,0,g.count);});
+  G.bindFramebuffer(G.FRAMEBUFFER,null);}
+ G.viewport(0,0,W,H);G.clearColor(0,0,0,1);G.clear(G.COLOR_BUFFER_BIT|G.DEPTH_BUFFER_BIT);
+ // sky
+ G.disable(G.DEPTH_TEST);G.useProgram(PK);const top=night?[.02,.03,.08]:[.30-.2*dusk,.46-.3*dusk,.70-.35*dusk],hor=night?[.08,.08,.12]:[.82+.1*dusk,.84-.25*dusk,.86-.4*dusk];
+ G.uniform3fv(U(PK,'top'),top);G.uniform3fv(U(PK,'hor'),hor);G.bindVertexArray(skyVao);G.drawArrays(G.TRIANGLES,0,3);
+ // scene
+ const el=st.el*Math.PI/180,az=st.az*Math.PI/180;const t=[st.tx,st.ty,st.tz];const eye=[t[0]+Math.cos(el)*Math.cos(az)*st.dist,t[1]+Math.cos(el)*Math.sin(az)*st.dist,t[2]+Math.sin(el)*st.dist];
+ const VP=mul(persp(38*Math.PI/180,W/H,2,6000),look(eye,t,[0,0,1]));
+ G.enable(G.DEPTH_TEST);G.useProgram(P);G.uniformMatrix4fv(U(P,'VP'),false,VP);G.uniformMatrix4fv(U(P,'SVP'),false,SVP);G.uniform3fv(U(P,'eye'),eye);
+ G.uniform3fv(U(P,'sun'),sv);G.uniform3fv(U(P,'sunc'),sunc);G.uniform3fv(U(P,'amb'),amb);G.uniform1f(U(P,'clipZ'),cz);G.uniform1f(U(P,'secX'),sx);
+ G.activeTexture(G.TEXTURE0);G.bindTexture(G.TEXTURE_2D,smTex);G.uniform1i(U(P,'sm'),0);
+ const glow=night?1:dusk*.7;
+ const pass=(g,alpha)=>{G.uniform1f(U(P,'q'),g.q);G.uniform1f(U(P,'bld'),g.bld);G.uniform3fv(U(P,'col'),COL[g.name]);G.uniform1f(U(P,'alpha'),alpha);G.uniform1f(U(P,'pv'),g.name==='pv'?1:0);
+  const e=g.name==='glass'?[1.0*glow,.62*glow,.30*glow]:(g.name==='context'&&night?[.05,.035,.02]:[0,0,0]);G.uniform3fv(U(P,'emis'),e);G.bindVertexArray(g.vao);G.drawArrays(G.TRIANGLES,0,g.count);};
+ groups.forEach(g=>{if(visible(g)&&g.name!=='glass')pass(g,1);});
+ G.enable(G.BLEND);G.blendFunc(G.SRC_ALPHA,G.ONE_MINUS_SRC_ALPHA);G.depthMask(false);groups.forEach(g=>{if(g.name==='glass'&&visible(g))pass(g,.42+.4*glow);});G.depthMask(true);G.disable(G.BLEND);
+ const lbl={all:'Whole building',roof:'Roof + PV lifted off',L3:'Level 3 cut at +4\'',L2:'Level 2 cut at +4\'',L1:'Level 1 cut at +4\'',B:'Basement cut at +4\''}[st.cut]+(st.sec?' · N–S section':'')+` · sun ${s.alt.toFixed(0)}° high`;
+ $('#vtip').textContent=lbl;}
+function req(sh){if(sh)dirtyShadow=true;if(!dirty){dirty=true;requestAnimationFrame(draw);}}
+// load
+metaP.then(m=>fetch('model_geo.json').then(r=>r.json()).then(j=>{const bs=atob(j.b64);const u8=new Uint8Array(bs.length);for(let i=0;i<bs.length;i++)u8[i]=bs.charCodeAt(i);const buf=u8.buffer;
+ m.groups.forEach(g=>{const a=new Int16Array(buf,g.offset,g.count*3);groups.push({name:g.name,count:g.count,q:m.q,bld:CTX.has(g.name)||g.name==='plaza'?0:1,vao:vaoFrom(a,G.SHORT)});});
+ const T=treeMesh(m.trees);groups.push({name:'tree',count:T.crown.length/3,q:1,bld:0,vao:vaoFrom(T.crown,G.FLOAT)});groups.push({name:'trunk',count:T.trunk.length/3,q:1,bld:0,vao:vaoFrom(T.trunk,G.FLOAT)});
+ const gi=groups.findIndex(g=>g.name==='glass');groups.push(groups.splice(gi,1)[0]);
+ $('#vload').hidden=true;req(true);})).catch(e=>{$('#vload').textContent='The model could not load.';console.error(e);});
+// interaction
+let drag=null;const ptrs=new Map();
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);drag={b:e.button,shift:e.shiftKey,x:e.clientX,y:e.clientY};});
+cv.addEventListener('pointerup',e=>{ptrs.delete(e.pointerId);if(!ptrs.size)drag=null;});
+cv.addEventListener('pointercancel',e=>{ptrs.delete(e.pointerId);drag=null;});
+let pinch0=null;
+cv.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+ if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+  if(pinch0){st.dist=Math.max(80,Math.min(1600,st.dist*pinch0.d/d));pan(mx-pinch0.mx,my-pinch0.my);}pinch0={d,mx,my};req();return;}
+ pinch0=null;const dx=e.clientX-prev[0],dy=e.clientY-prev[1];
+ if(drag&&(drag.b===2||drag.shift))pan(dx,dy);else{st.az-=dx*.35;st.el=Math.max(3,Math.min(88,st.el+dy*.3));}req();});
+function pan(dx,dy){const az=st.az*Math.PI/180,k=st.dist/cv.clientHeight*.8;const rx=[-Math.sin(az),Math.cos(az)],fx=[-Math.cos(az),-Math.sin(az)];
+ st.tx+=(-dx*rx[0]+dy*fx[0])*k;st.ty+=(-dx*rx[1]+dy*fx[1])*k;}
+cv.addEventListener('wheel',e=>{e.preventDefault();st.dist=Math.max(80,Math.min(1600,st.dist*Math.exp(e.deltaY*.0012)));req();},{passive:false});
+$$('[data-cut]').forEach(b=>b.onclick=()=>{$$('[data-cut]').forEach(x=>x.setAttribute('aria-pressed',x===b));st.cut=b.dataset.cut;if(st.cut!=='all'&&st.cut!=='roof'&&st.el<40)st.el=58;req(true);});
+$('#secBtn').onclick=()=>{st.sec=!st.sec;$('#secBtn').setAttribute('aria-pressed',st.sec);$('#secWrap').hidden=!st.sec;if(st.sec){Object.assign(st,{az:-8,el:16,dist:430,tx:-10,ty:-5,tz:30});if(st.ctx){st.ctx=false;$('#ctxBtn').setAttribute('aria-pressed',false);}}req(true);};
+$('#secPos').oninput=e=>{st.secX=+e.target.value;req(true);};
+$('#ctxBtn').onclick=()=>{st.ctx=!st.ctx;$('#ctxBtn').setAttribute('aria-pressed',st.ctx);req(true);};
+$('#resetBtn').onclick=()=>{Object.assign(st,{az:-50,el:26,dist:560,tx:-5,ty:0,tz:22});req();};
+function fmtH(h){const H=Math.floor(h),M=Math.round((h-H)*60)%60,ap=H>=12?'pm':'am';return`${((H+11)%12)+1}:${String(M).padStart(2,'0')} ${ap}`;}
+$('#sunTime').oninput=e=>{st.hour=+e.target.value;$('#sunLbl').textContent=fmtH(st.hour);req(true);};
+$('#sunDate').onchange=e=>{st.doy=+e.target.value;req(true);};
+new ResizeObserver(()=>req()).observe(cv);
+})();
+</script>
+
+</body>
+</html>
